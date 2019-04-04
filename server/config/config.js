@@ -15,9 +15,11 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 
 let urlDB;
 
+
+
 if (process.env.NODE_ENV === 'dev') {
     urlDB = 'mongodb://localhost:27017/cafe'
 } else {
-    urlDB = 'mongodb+srv://Manuel11713:Spartan11713@cluster0-rhrav.mongodb.net/test?retryWrites=true'
+    urlDB = process.env.MONGO_URI; // variable creada en video 105 'Variables de entorno personalizadas de Heroku'
 }
 process.env.URLDB = urlDB;
