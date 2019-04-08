@@ -48,6 +48,7 @@ usuarioSchema.methods.toJSON = function() { //Elimamos el password es el postman
 
     return userObject;
 }
+
 usuarioSchema.plugin(uniqueValidator, {
     message: '{PATH} debe de ser unico'
 });

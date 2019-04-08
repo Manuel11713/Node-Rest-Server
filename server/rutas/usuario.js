@@ -3,12 +3,18 @@ const bcrypt = require('bcrypt');
 const _ = require('underscore');
 const app = express();
 const Usuario = require('../models/usuario');
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+const { verificaToken, VerficaAdmin_Role } = require('../middlewares/autenticacion') //importamos middleware
+
 
 app.get('/', function(req, res) {
     res.json('Hello World')
 })
 
-app.get('/usuario', function(req, res) {
+app.get('/usuario', verificaToken, (req, res) => { //aqui usamos el middleware como argumento
 
     let desde = req.query.desde || 0;
     desde = Number(desde);
@@ -36,7 +42,7 @@ app.get('/usuario', function(req, res) {
         });
 });
 
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verificaToken, VerficaAdmin_Role], (req, res) => {
 
     let body = req.body;
 
@@ -60,22 +66,8 @@ app.post('/usuario', function(req, res) {
             usuario: usuarioDB
         })
     });
-
-    // if (body.nombre === undefined) {
-
-    //     res.status(400).json({
-    //         ok: false,
-    //         mensaje: 'el nombre es ncecesario'
-    //     });
-    // } else {
-    //     res.json({
-    //         persona: body
-    //     });
-    // }
-
-
 });
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', [verificaToken, VerficaAdmin_Role], (req, res) => {
 
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']); //el put solo modificara estos campos
@@ -96,11 +88,10 @@ app.put('/usuario/:id', function(req, res) {
 });
 
 
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verificaToken, VerficaAdmin_Role], (req, res) => {
 
     let id = req.params.id;
 
-    //Usuario.findByIdAndRemove(id,(err,usuarioborrado)=>{})
     let cambiaEstado = { //Cambiamos el estado a false que sera de argumento en la funcion
         estado: false
     }
