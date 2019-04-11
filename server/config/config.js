@@ -34,3 +34,10 @@ if (process.env.NODE_ENV === 'dev') {
     urlDB = process.env.MONGO_URI; // variable creada en video 105 'Variables de entorno personalizadas de Heroku'
 }
 process.env.URLDB = urlDB;
+
+
+//=====================
+//===GOOGLE CLIENT ID==
+//=====================
+
+process.env.CLIENT_ID = process.env.CLIENT_ID || '684755180060-4oiauacit9pqso0n651nqfbmud2o0id7.apps.googleusercontent.com';

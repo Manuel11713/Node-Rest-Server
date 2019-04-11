@@ -10,9 +10,9 @@ app.use(bodyParser.json());
 const { verificaToken, VerficaAdmin_Role } = require('../middlewares/autenticacion') //importamos middleware
 
 
-app.get('/', function(req, res) {
-    res.json('Hello World')
-})
+// app.get('/', function(req, res) {
+//     res.json('Hello World')
+// })
 
 app.get('/usuario', verificaToken, (req, res) => { //aqui usamos el middleware como argumento
 
